@@ -3,21 +3,23 @@
 ##
 ## Syntax:  icc <- estimate_ICC(drData, with_GA=1, timepoint="early", DBverbose=0)
 ##
-## Inputs: 
-##     drData, with_GA=1, timepoint="early" - 
+## Inputs:
+##     dfData     - data frame with feature set
+##     with_GA    - control for gestational age (0=no, 1=yes); default=1
+##     timepoint  - which time-point to analyse: "early", "2nd", or "3rd"; default="early"
+##     DBverbose  - verbosity 
 ##
 ## Outputs: 
-##      - icc
+##      icc - intra-class correlation
 ##
-## Example:
-##     
-##
-## Requires: lme4
+## REQUIRES:
+##     lme4 (version 1.1.15)
+
 
 ## John M. O' Toole, University College Cork
 ## Started: 22-10-2018
 ##
-## last update: Time-stamp: <2018-10-22 13:16:12 (otoolej)>
+## last update: Time-stamp: <2018-10-22 16:44:38 (otoolej)>
 ##-------------------------------------------------------------------------------
 estimate_ICC <- function(drData, with_GA=1, timepoint="early", DBverbose=0){
 

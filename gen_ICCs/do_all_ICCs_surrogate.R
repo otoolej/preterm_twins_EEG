@@ -1,22 +1,29 @@
 ##-------------------------------------------------------------------------------
 ## do_all_ICCs_surrogate: generate ICC threshold for dataframe dfFeats
 ##
-## Syntax:  do_all_ICCs_surrogate(dfFeats, N_iter=500, fname=NA)
+## Syntax:  do_all_ICCs_surrogate(dfFeats, N_iter=1000, fname=NA)
 ##
-## Inputs: 
-##     dfFeats, N_iter=500, fname=NA - 
+## Inputs:
+##     dfFeats - data frame with feature set
+##     N_iter  - number of iterations (default=1000)
+##     fname   - output .csv file (default=NA)
 ##
 ##
-## Example:
-##     
+## REQUIRES:
+##     lme4 (version 1.1.15)
+##     plyr (version 1.8.4)
 ##
+##     and local functions:
+##             gen_ICCs/cal_ICC_threshold.R
+##             gen_ICCs/estimate_ICC.R
+
 
 ## John M. O' Toole, University College Cork
 ## Started: 22-10-2018
 ##
-## last update: Time-stamp: <2018-10-22 14:44:05 (otoolej)>
+## last update: Time-stamp: <2018-10-22 16:43:26 (otoolej)>
 ##-------------------------------------------------------------------------------
-do_all_ICCs_surrogate <- function(dfFeats, N_iter=500, fname=NA){
+do_all_ICCs_surrogate <- function(dfFeats, N_iter=1000, fname=NA){
 
 
     ##-------------------------------------------------------------------

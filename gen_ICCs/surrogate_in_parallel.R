@@ -1,15 +1,18 @@
+## Speed up the computation of estimating the ICC thresholds by doing in parallel.
 library('parallel')
-source('gen_all_surrogate_limits.R')
+source('gen_all_ICC_thresholds.R')
 
-# Calculate the number of cores
+
+## initiate cluster:
 no_cores <- detectCores() - 1
-# Initiate cluster
 cl <- makeCluster(no_cores)
 
 
 data_types <- c("twins", "mcda", "dcda", "singletons")
 
+## do in parallel:
 parLapply(cl, data_types, gen_all_surrogate_limits)
 
 
+## close cluster
 stopCluster(cl)

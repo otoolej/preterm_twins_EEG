@@ -1,24 +1,32 @@
 ##-------------------------------------------------------------------------------
 ## cal_ICC: estimates ICCs for the early time point
 ##
-## Syntax: dfICC <- cal_ICC(drData, with_GA=0, fname="ICC_features_no_GA.csv")
+## Syntax: dfICC <- cal_ICC(dfData, with_GA=1, timepoint="early")
 ##
 ## Inputs: 
-##     drData, with_GA=0, fname="ICC_features_no_GA.csv" - 
+##     dfData     - data frame with feature set
+##     with_GA    - control for gestational age (0=no, 1=yes); default=1
+##     timepoint  - which time-point to analyse: "early", "2nd", or "3rd"; default="early"
+##
 ##
 ## Outputs: 
-##     dfICC - 
+##     dfICC - data frame with ICC threshold for each feature
 ##
-## Example:
 ##     
 ##
+## REQUIRES:
+##     lme4 (version 1.1.15)
+##
+##     and local functions:
+##             gen_ICCs/estimate_ICC.R
+
 
 ## John M. O' Toole, University College Cork
 ## Started: 19-10-2018
 ##
-## last update: Time-stamp: <2018-10-22 13:09:51 (otoolej)>
+## last update: Time-stamp: <2018-10-22 16:32:56 (otoolej)>
 ##-------------------------------------------------------------------------------
-cal_ICC <- function(drData, with_GA=0, timepoint="early", fname=NA){
+cal_ICC <- function(dfData, with_GA=1, timepoint="early", fname=NA){
 
     DBverbose <- 0
 
@@ -27,24 +35,24 @@ cal_ICC <- function(drData, with_GA=0, timepoint="early", fname=NA){
         ## include only early time points
         ##-------------------------------------------------------------------
         ## remove follow-up EEGs (at 32 and 35 weeks):
-        drData <- drData[drData$EEGtime != "2nd", ]
-        drData <- drData[drData$EEGtime != "3rd", ]
+        dfData <- dfData[dfData$EEGtime != "2nd", ]
+        dfData <- dfData[dfData$EEGtime != "3rd", ]
         ## change units of time from hours to days:
-        drData$EEGtime <- (as.numeric(as.character(drData$EEGtime)))/24
+        dfData$EEGtime <- (as.numeric(as.character(dfData$EEGtime)))/24
 
     } else {
         ##-------------------------------------------------------------------
         ## or if the 32 week or 35 week time point:
         ##-------------------------------------------------------------------
 
-        drData <- subset(drData,EEGtime %in% timepoint)
+        dfData <- subset(dfData,EEGtime %in% timepoint)
     }
-    drData <- droplevels(drData)
+    dfData <- droplevels(dfData)
 
     ##-------------------------------------------------------------------
     ## select feature
     ##-------------------------------------------------------------------
-    allFeatureNames <- levels(drData$featName)
+    allFeatureNames <- levels(dfData$featName)
     N_feats <- length(allFeatureNames)
     icc <- matrix(, nrow=N_feats)
 
@@ -56,36 +64,28 @@ cal_ICC <- function(drData, with_GA=0, timepoint="early", fname=NA){
     for(nn in 1:N_feats){
         featureName <- allFeatureNames[nn]
 
-        ##rm(drData.sub)
-        drData.sub <- drData[drData$featName == featureName, ]
-        drData.sub <- droplevels(drData.sub)
+        dfData.sub <- dfData[dfData$featName == featureName, ]
+        dfData.sub <- droplevels(dfData.sub)
 
-        drData.sub$feat <- log(drData.sub$feat + 1e-16)
+        dfData.sub$feat <- log(dfData.sub$feat + 1e-16)
         
         
         ##-------------------------------------------------------------------
         ## estimate the ICC
         ##-------------------------------------------------------------------
-        icc[nn] <- estimate_ICC(drData.sub, with_GA, timepoint, DBverbose)
+        icc[nn] <- estimate_ICC(dfData.sub, with_GA, timepoint, DBverbose)
         print( sprintf("| %s | ICC=%f|", featureName, icc[nn]) )
 
     }
 
     ##-------------------------------------------------------------------
-    ## collect ICCs and write to .csv file
+    ## collect ICCs and return
     ##-------------------------------------------------------------------
-    iccSt <- data.frame(allFeatureNames, icc)
-    colnames(iccSt) <- c("feature", "ICC")
+    dfICC <- data.frame(allFeatureNames, icc)
+    colnames(dfICC) <- c("feature", "ICC")
 
-    ## write to .csv file
-    if(!is.na(fname)){
-        ddir <- "./data/ICC_results/";
-        fnameCSV <- paste(ddir, fname, sep="")
 
-        write.csv(iccSt, fnameCSV, row.names=FALSE)
-    }
-
-    return(iccSt)
+    return(dfICC)
 }
 
 

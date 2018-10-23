@@ -1,20 +1,26 @@
 ##-------------------------------------------------------------------------------
 ## do_all_ICCs: generate ICCs at the 3 time points for the twins data set
 ##
-## Syntax: do_all_ICCs(dfFeats, fname_out)
+## Syntax: do_all_ICCs(dfFeats, fname)
 ##
-## Inputs: 
-##     dfFeats, fname_out - 
+## Inputs:
+##     dfFeats - data frame with feature set
+##     fname   - output .csv file
 ##
 ##
-## Example:
-##     
+## REQUIRES:
+##     lme4 (version 1.1.15)
+##     plyr (version 1.8.4)
 ##
+##     and local functions:
+##             gen_ICCs/cal_ICC.R
+##             gen_ICCs/estimate_ICC.R
+
 
 ## John M. O' Toole, University College Cork
 ## Started: 19-10-2018
 ##
-## last update: Time-stamp: <2018-10-22 11:39:57 (otoolej)>
+## last update: Time-stamp: <2018-10-22 16:39:38 (otoolej)>
 ##-------------------------------------------------------------------------------
 do_all_ICCs <- function(dfFeats, fname=NA){
 
