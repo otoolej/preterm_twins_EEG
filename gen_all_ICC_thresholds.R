@@ -40,7 +40,7 @@
 ## John M. O' Toole, University College Cork
 ## Started: 22-10-2018
 ##
-## last update: Time-stamp: <2018-10-23 12:07:15 (otoolej)>
+## last update: Time-stamp: <2018-10-23 17:40:58 (otoolej)>
 ##-------------------------------------------------------------------------------
 gen_all_ICC_thresholds <- function(cohort = "twins"){
 
@@ -83,7 +83,7 @@ gen_all_ICC_thresholds <- function(cohort = "twins"){
         ##-------------------------------------------------------------------
         ##  load the SINGLETONS data:
         ##-------------------------------------------------------------------
-        dfFeatsSing <- load_twin_features(dfNames_fin$sing_feats)
+        dfFeats <- load_twin_features(dfNames_fin$sing_feats)
         fname <- dfNames_fout$sing_icc_thres
 
     }
