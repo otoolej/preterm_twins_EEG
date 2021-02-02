@@ -3,8 +3,9 @@ EEG Concordance in Preterm Twins
 
 Code for manuscript:
 
-`Lloyd RO, O'Toole JM, Livingstone V, Filan PM, Boylan GB, Mathematical analysis of EEG
-concordance in perterm twins, 2018, under review`
+`Lloyd RO, O'Toole JM, Livingstone V, Filan PM, Boylan GB (2021), Mathematical analysis of
+EEG concordance in perterm twins, Journal of Clinical Neurophysiology, 38(1), 62-68`
+[doi:10.1097/WNP.0000000000000645](https://www.doi.org/10.1097/WNP.0000000000000645)
 
 
 Please cite the above reference if using this code to generate new results. 
